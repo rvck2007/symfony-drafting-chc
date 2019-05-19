@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class ActivityRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findActivityWhereLabelInclude($label)
+    {
+        $activity = $this->getEntityManager()->createQuery('
+            SELECT a FROM AppBundle:Activity a
+            WHERE a.label LIKE :label
+        ')
+            ->setParameter('label', '%'. $label . '%')
+            ->getResult()
+        ;
+
+        return $activity;
+    }
 }
