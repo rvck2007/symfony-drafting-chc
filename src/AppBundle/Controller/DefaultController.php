@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Activity;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,20 @@ class DefaultController extends Controller
      */
     public function query1Action()
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQuery('
+            SELECT a FROM AppBundle:Activity a
+            WHERE a.label LIKE :label
+        ')
+            ->setParameter('label', '%Saun%')
+        ;
+
+        $activity = $query->getResult();
+
+        var_dump($activity);
+
+        exit();
         return new Response("Hello à tous");
     }
 }
